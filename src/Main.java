@@ -14,8 +14,24 @@ public class Main {
     tableHeight = 10;
     numberOfGenerations = 50;
     drawSpeed = 1500;
-    initialPopulation = "##10101#1#01";
+    initialPopulation = "##▇0▇0▇#▇#0▇";
     System.out.println(initialPopulation.length());
+
+    //verificate the string
+    /*int stringCounter = 0;
+    int maxCounted = 0;
+    for (int posOnString = 0; posOnString < initialPopulation.length(); posOnString++) {
+      if(initialPopulation.charAt(posOnString) == '#'){
+        if(stringCounter >= maxCounted){
+          maxCounted = stringCounter;
+        }
+        stringCounter = 0;
+      }
+      else stringCounter++;
+
+    }
+    System.out.println(maxCounted);
+*/
 
     char [][] gameTable = new char[tableHeight][tableWeight];
     int posOnString = 0;
@@ -36,22 +52,11 @@ public class Main {
 
     //draw
     //dibujar tabla (libreria master)
-    for (int i = 0; i < tableHeight; i ++) {
-      for(int j = 0;j < tableWeight; j++){
-        System.out.print(gameTable[i][j]  );
-        if(j != tableWeight - 1){
-          System.out.print("|");
-        }
-      }
-      System.out.println("");
-      if(i != tableHeight - 1){
-        System.out.print("-+");
-        for (int k = 0; k < tableWeight - 2; k++){
-          System.out.print("-+");
-        }
-        System.out.println("-");
-      }
-    }
+    drawMatrix(gameTable);
+
+
+
+
     //update
     //crear otra tabla para aplicar regla
     char[][] updatedGameTable = new char[tableHeight][tableWeight];
@@ -66,5 +71,39 @@ public class Main {
     //reemplazar tabla principal o inicial
     //dibujar
 
+  }
+  public static void drawMatrix(char [][] matrix){
+    for (int i = 0; i < matrix.length; i ++) {
+      for(int j = 0;j < matrix[0].length; j++){
+        System.out.print(matrix[i][j]  );
+        if(j != matrix[0].length - 1){
+          System.out.print("|");
+        }
+      }
+      System.out.println("");
+      if(i != matrix.length - 1){
+        System.out.print("-+");
+        for (int k = 0; k < matrix[0].length - 2; k++){
+          System.out.print("-+");
+        }
+        System.out.println("-");
+      }
+    }
+  }
+  public static boolean verificateSetupString(String stringToVerificate, char[][] gameTable){
+    int stringCounter = 0;
+    int maxOnRowCounted = 0;
+    int maxOnColCounted = 0;
+    for (int posOnString = 0; posOnString < stringToVerificate.length(); posOnString++) {
+      if(stringToVerificate.charAt(posOnString) == '#'){
+        if(stringCounter >= maxOnRowCounted){
+          maxOnRowCounted = stringCounter;
+        }
+        stringCounter = 0;
+        maxOnColCounted++;
+      }
+      else stringCounter++;
+    }
+    return ((gameTable.length < maxOnColCounted) && (gameTable[0].length < maxOnRowCounted));
   }
 }
