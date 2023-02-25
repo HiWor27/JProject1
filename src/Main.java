@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.lang.Thread;
 
 public class Main {
 
@@ -12,10 +13,55 @@ public class Main {
 
     numberOfGenerations = getUserIntInput("Insert the number of generations");
     drawSpeed = getUserIntInput("Insert the speed of drawing");
+    while(true){
 
-    drawMatrix(gameTable);
+        drawMatrix(gameTable);
+        gameTable=getNewGeneration(gameTable);
+
+
+
+      }
+    }
+
   }
+  public static char[][] getNewGeneration(char[][] oldMatrix){
+    char[][] newMatrix = new char[oldMatrix.length][oldMatrix[0].length];
 
+
+    for (int i = 1; i < newMatrix.length - 1; i ++) {
+      for (int j = 1; j < newMatrix[0].length - 1; j++) {
+        //detectar vecinos
+        int cellsAround = 0;
+        if (oldMatrix[i - 1][j - 1] == '■') cellsAround++;
+        if (oldMatrix[i][j - 1] == '■') cellsAround++;
+        if (oldMatrix[i + 1][j - 1] == '■') cellsAround++;
+
+        if (oldMatrix[i - 1][j] == '■') cellsAround++;
+        if (oldMatrix[i + 1][j] == '■') cellsAround++;
+
+        if (oldMatrix[i - 1][j + 1] == '■') cellsAround++;
+        if (oldMatrix[i][j + 1] == '■') cellsAround++;
+        if (oldMatrix[i + 1][j + 1] == '■') cellsAround++;
+
+
+
+        if (oldMatrix[i][j] == '■') {
+          if ((cellsAround == 2) || (cellsAround == 3))
+            newMatrix[i][j] = '■';
+          else newMatrix[i][j] = ' ';
+
+        }
+
+        else if (oldMatrix[i][j] == ' ') {
+          if (cellsAround == 3)
+            newMatrix[i][j] = '■';
+        }
+//#0101#001
+
+      }
+    }
+    return newMatrix;
+  }
   public static char[][] getSetupMatrix() {
     int tableHeight, tableWeight;
     String initialPopulation;
